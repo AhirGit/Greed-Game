@@ -27,7 +27,7 @@ public class GreedGame extends Game {
         menu.addItem(new MenuItems("2", "Quit game") {
             @Override
             public boolean select(Viewable v, GameLogical gl) {
-                System.out.println("Quitting program successfully.....")
+                System.out.println("Quitting program successfully.....");
                 System.exit(0);
                 return false;
             }
