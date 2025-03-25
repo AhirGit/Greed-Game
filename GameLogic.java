@@ -17,7 +17,13 @@ public abstract class GameLogic implements GameLogical{
         System.out.println("Player Score: " + score);
     }
 
+    //increase score of this game logic
+    public void addToScore(int points) {
+        score += points;
+    }
+
     // nextState remains abstract
     @Override
     public abstract boolean nextState(Viewable v);
+
 }

@@ -10,8 +10,6 @@ public class Menu implements Menuable {
     public Menu(){
         selectableItems = new ArrayList<MenuItems>();
         userinput = new Scanner(System.in); //take user input
-
-        selectableItems.add(new MenuItems("2", "Quit Program")); //adds quit program by default
     }
 
     //set the unique menu message
@@ -25,11 +23,12 @@ public class Menu implements Menuable {
     }
 
     //return of false implies there is no next state
+    //Viewable v is game menu
     public boolean nextState(Viewable v){
         String input = userinput.next().trim();
 
         for (int i = 0; i < selectableItems.size(); i++) {
-            MenuItems item = selectableItems.get(i);
+            MenuItems item = selectableItems.get(i); //
     
             // if available, select the option user picked
             if (item.getCommand().equals(input)) {

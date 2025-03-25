@@ -15,10 +15,18 @@ public class GreedGame extends Game {
     private static Menu makeMenu() {
         Menu menu = new Menu();
         menu.setMessage("Welcome to Greed");
+        
         menu.addItem(new MenuItems("1", "Play Game") {
             @Override
             public boolean select(Viewable v, GameLogical gl) {
                 return true;
+            }
+        });
+
+        menu.addItem(new MenuItems("2", "Quit game") {
+            @Override
+            public boolean select(Viewable v, GameLogical gl) {
+                return false;
             }
         });
 
