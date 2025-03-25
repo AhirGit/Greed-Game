@@ -1,7 +1,7 @@
 //a generic game logic with specific rules for the some common games
 
 public abstract class GameLogic implements GameLogical{
-    protected int score; //store the score in current state for view
+    private int score; //store the score in current state for view
 
     public GameLogic() {
         this.score = 0;

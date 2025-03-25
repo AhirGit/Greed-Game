@@ -40,33 +40,46 @@ public class GreedBoard implements GameBoard{
     //Display the 2d gameboard with randomized number on the console
     @Override
     public void view() {
-        for (char[] row : board) {
-            System.out.println(row); //print the entire row on each line
+        for(int i=0; i<cols; i++){
+            System.out.print("-");
         }
+        System.out.println("");
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                System.out.print(board[i][j]);
+            }
+            System.out.println();
+        }
+        for(int i=0; i<cols; i++){
+            System.out.print("-");
+        }
+        System.out.println("");
     }
 
-    //steps in the direction of moveX and moveY
-    public int getStepsInDirection(int moveX, int moveY) {
-        int newRow = playerRow + moveX;
-        int newCol = playerCol + moveY;
+    // steps in the direction of the selected move
+    // for example @4..... if the user selects the key for right,
+    // selectedX = 1, selectedY = 0;
+    public int getStepsInDirection(int selectedX, int selectedY) {
+        int newRow = playerRow + selectedY;
+        int newCol = playerCol + selectedX;
 
         if (inBounds(newRow, newCol)) {
             char ch = board[newRow][newCol];
             if (Character.isDigit(ch)) {
-                return ch - '0';
+                return ch - '0'; //character to integer step
             }
         }
         return 0;
     }
 
     //apply the move to the board and update the state
-    public void applyMove(int moveX, int moveY, int steps) {
+    public void applyMove(int directionX, int directionY, int steps) {
         int currentRow = playerRow;
         int currentCol = playerCol;
 
-        for (int i = 1; i <= steps; i++) {
-            int nextRow = currentRow + moveY * i;
-            int nextCol = currentCol + moveX * i;
+        for (int i = 1; i < steps; i++) {
+            int nextRow = currentRow + directionY * i;
+            int nextCol = currentCol + directionX * i;
 
             if (!inBounds(nextRow, nextCol)) return; //dont move if outside of bound
 
@@ -74,14 +87,14 @@ public class GreedBoard implements GameBoard{
         }
 
         board[playerRow][playerCol] = ' '; // clear old player position
-        playerRow += moveY * steps;
-        playerCol += moveX * steps;
+        playerRow += directionY * steps;
+        playerCol += directionX * steps;
         board[playerRow][playerCol] = '@';
     }
 
     //look around the player for selectable moves
     public List<GreedMove> getValidMoves(GreedLogic logic) {
-        List<GreedMove> moves = new ArrayList<>();
+        List<GreedMove> moves = new ArrayList<GreedMove>();
 
         //directions around the player
         int[][] directions = {
@@ -105,16 +118,16 @@ public class GreedBoard implements GameBoard{
         };
 
         for (int i = 0; i < directions.length; i++) {
-            int dx = directions[i][0];
-            int dy = directions[i][1];
-            int steps = getStepsInDirection(dx, dy);
+            int selectedX = directions[i][0];
+            int selectedY = directions[i][1];
+            int steps = getStepsInDirection(selectedX, selectedY);
             if (steps == 0) continue;
 
             // Check path validity
             boolean valid = true;
             for (int s = 1; s <= steps; s++) {
-                int nr = playerRow + dy * s;
-                int nc = playerCol + dx * s;
+                int nr = playerRow + selectedY * s;
+                int nc = playerCol + selectedX * s;
 
                 //move is not valid if there is an empty spot on the way or out of the board
                 if (!inBounds(nr, nc) || board[nr][nc] == ' ') {
@@ -124,7 +137,7 @@ public class GreedBoard implements GameBoard{
             }
 
             if (valid) {
-                moves.add(new GreedMove(keys[i], labels[i], dx, dy));
+                moves.add(new GreedMove(keys[i], labels[i], selectedX, selectedY));
             }
         }
 

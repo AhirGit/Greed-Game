@@ -5,7 +5,7 @@ public class GreedGame extends Game {
     }
 
     private static GreedLogic makeLogic() {
-        return new GreedLogic();
+        return new GreedLogic(new HumanPlayer("Player1"));
     }
 
     private static GreedBoard makeBoard() {
@@ -14,8 +14,9 @@ public class GreedGame extends Game {
 
     private static Menu makeMenu() {
         Menu menu = new Menu();
-        menu.setMessage("Welcome to Greed");
-        
+        menu.setMessage("Welcome to Greed"); //initial message
+
+        //add menu options
         menu.addItem(new MenuItems("1", "Play Game") {
             @Override
             public boolean select(Viewable v, GameLogical gl) {
@@ -26,6 +27,8 @@ public class GreedGame extends Game {
         menu.addItem(new MenuItems("2", "Quit game") {
             @Override
             public boolean select(Viewable v, GameLogical gl) {
+                System.out.println("Quitting program successfully.....")
+                System.exit(0);
                 return false;
             }
         });

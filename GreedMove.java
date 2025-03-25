@@ -2,15 +2,15 @@
 
 public class GreedMove implements Selectable {
 
-    private int moveX, moveY; //postion of player if this move is selected
+    private int directionX, directionY; //move in the x, y directions
     private String description; //where will this move take the player?
     private String command; //command/key to press to select this move
 
-    public GreedMove(String command, String description, int moveX, int moveY) {
+    public GreedMove(String command, String description, int directionX, int directionY) {
         this.command = command;
         this.description = description;
-        this.moveX = moveX;
-        this.moveY = moveY;
+        this.directionX = directionX;
+        this.directionY = directionY;
     }
     
     //v is greedboard and gl is greedlogic
@@ -25,13 +25,13 @@ public class GreedMove implements Selectable {
         GreedBoard greedBoard = (GreedBoard) v;
         GreedLogic greedLogic = (GreedLogic) gl;
 
-        int steps = greedBoard.getStepsInDirection(moveX, moveY);
-        if (steps == 0) return true;
+        int steps = greedBoard.getStepsInDirection(directionX, directionY);
+        if (steps == 0) return true; //dont apply move
 
+        //apply move
+        greedBoard.applyMove(directionX, directionY, steps);
         greedLogic.addToScore(steps);
-        greedBoard.applyMove(moveX, moveY, steps);
         return true;
-        //return false; // By default, not entering game mode
     }
 
     public String getCommand() {
@@ -40,5 +40,13 @@ public class GreedMove implements Selectable {
 
     public String getDescription() {
         return description;
+    }
+
+    public int getDirectionX(){
+        return directionX;
+    }
+
+    public int getDirectionY(){
+        return directionY;
     }
 }
